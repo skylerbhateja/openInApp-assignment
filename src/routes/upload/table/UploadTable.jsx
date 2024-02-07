@@ -6,8 +6,8 @@ const TABLE_HEAD = ["SI No.", "Links", "Prefix", "Add Tags", "Selected Tags"];
 
 export function UploadTable({ data, handleAddTag, handleRemoveTag }) {
   return (
-    <Card className="h-full w-full overflow-scroll bg-blue-gray-50">
-      <table className="w-full min-w-max table-auto text-left border-spacing-y-4 border-separate  mx-2">
+    <Card className="h-full w-full bg-blue-gray-50 overflow-auto px-2">
+      <table className="table-auto text-left border-spacing-y-4 border-separate mx-2 ">
         <thead>
           <tr>
             {TABLE_HEAD.map((head) => (
@@ -75,28 +75,31 @@ export function UploadTable({ data, handleAddTag, handleRemoveTag }) {
                       <CustomSelect
                         id={id}
                         label="Select Tags"
-                        className={"w-36"}
                         onChange={handleAddTag}
                         options={select_tags.split(",")}
+                        parentStyleProps={{ width: "121px" }}
+                        containerProps={{ style: { minWidth: "100px" } }}
                       />
                     </Typography>
                   </td>
-                  <td className={"flex flex-row items-center p-4 rounded-r-lg"}>
-                    {selected_tags.split(",").map((item, index) => {
-                      const isFirst = index === 0;
-                      const classes = isFirst ? "" : "ml-2";
-                      return (
-                        item && (
-                          <Tags
-                            id={id}
-                            key={index}
-                            label={item}
-                            onClick={handleRemoveTag}
-                            classes={classes}
-                          />
-                        )
-                      );
-                    })}
+                  <td colSpan={5} className={"rounded-r-lg"}>
+                    <div className={"flex flex-row items-center px-2"}>
+                      {selected_tags.split(",").map((item, index) => {
+                        const isFirst = index === 0;
+                        const classes = isFirst ? "" : "ml-2";
+                        return (
+                          item && (
+                            <Tags
+                              id={id}
+                              key={index}
+                              label={item}
+                              onClick={handleRemoveTag}
+                              classes={classes}
+                            />
+                          )
+                        );
+                      })}
+                    </div>
                   </td>
                 </tr>
               );

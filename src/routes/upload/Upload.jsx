@@ -13,12 +13,15 @@ import UploadIcon from "../../assets/upload.svg";
 import { UploadTable } from "./table/UploadTable";
 import { uploadData } from "../../data/uploadData";
 import { useMediaQuery } from "react-responsive";
+import { useAppContext } from "../../context/AuthContext";
 
 const Upload = () => {
   const isMobileTablet = useMediaQuery({ query: "(max-width: 959px)" });
 
   const [data, setData] = useState(uploadData);
   const [file, setFile] = useState(null);
+  const {user} = useAppContext()
+  
   const [loading, setLoading] = useState(false);
   const onDrop = useCallback((acceptedFiles) => {
     setFile(acceptedFiles[0]);
@@ -65,7 +68,7 @@ const Upload = () => {
   });
   return (
     <div className="w-full">
-      <Header title={"Upload CSV"} />
+      <Header title={"Upload CSV"} profile={user?.picture} />
       <div className="w-full flex flex-1 justify-center items-center">
         <Card className="">
           <CardBody>
@@ -119,7 +122,7 @@ const Upload = () => {
           <CardFooter>
             <Button
               disabled={!file}
-              className="flex flex-row items-center justify-center w-full"
+              className="flex flex-row items-center justify-center w-full bg-[#605BFF]"
             >
               <img src={UploadIcon} alt="upload-icon" />
               <Typography className="ml-2 text-sm">Upload</Typography>

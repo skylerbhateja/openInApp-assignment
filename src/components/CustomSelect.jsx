@@ -7,14 +7,20 @@ const CustomSelect = ({
   options = [],
   className,
   onChange,
+  parentStyleProps, 
   ...props
 }) => {
   const handleChange = (value) => {
     onChange && onChange(id, value);
   };
   return (
-    <div className={className}>
-      <Select label={label} onChange={handleChange} {...props}>
+    <div style={parentStyleProps}>
+      <Select
+        label={label}
+        onChange={handleChange}
+        color="blue"
+        {...props}
+      >
         {options.map((item, index) => (
           <Option key={index} value={item}>
             {item}

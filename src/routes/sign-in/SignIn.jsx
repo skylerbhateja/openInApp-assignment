@@ -1,15 +1,40 @@
 import React from "react";
 import BaseLogo from "../../assets/base.svg";
 import GithubLogo from "../../assets/github.svg";
+import GoogleLogo from "../../assets/google.svg";
 import AppleLogo from "../../assets/apple.svg";
 
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../context/AuthContext";
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const { setUser } = useAppContext();
+  const googleLogin = useGoogleLogin({
+    flow: "implicit",
+    onSuccess: async (tokenResponse) => {
+      fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setUser(data);
+          handleLogin()
+        });
+    },
+    onError: (errorResponse) => console.log(errorResponse),
+  });
+
+  const handleLogin = () => {
+    navigate("/upload");
+  };
   return (
-    <div className="bg-white dark:bg-gray-900 h-screen">
+    <div className=" dark:bg-gray-900 h-screen bg-[#F8FAFF]">
       <div className="flex justify-center h-full">
-        <div className="hidden bg-[#605BFF] lg:block lg:w-1/2 transform -skew-x-12 -ml-[105px]">
+        <div className="hidden h-full bg-[#605BFF] lg:block lg:w-1/2 transform -skew-x-12 -ml-[105px]">
           <div className="transform skew-x-12">
             <img
               src={BaseLogo}
@@ -18,33 +43,41 @@ const SignIn = () => {
             />
           </div>
 
-          <div className="flex items-center justify-center h-full transform skew-x-12">
+          <div className="flex items-center justify-center transform skew-x-12 my-72">
             <h1 className="text-white text-6xl font-bold">BASE</h1>
           </div>
-          {/* <div className="transform skew-x-12 border border-black flex justify-center">
+          <div className="transform skew-x-12 flex justify-center my-96 ml-40">
             <img src={GithubLogo} alt="Base logo" />
-          </div> */}
+          </div>
         </div>
         <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
           <div className="w-full max-w-md">
-            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h1 class="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl dark:text-white mb-3">
               Sign In
             </h1>
             <h6 class="text-sm leading-tight tracking-tight text-gray-900 dark:text-white">
               Sign in to your account
             </h6>
-            <div className="flex flex-row items-center">
-              <GoogleLogin />
-              <div className="flex flex-row justify-center items-center">
-                <img src={AppleLogo} alt="Base logo" className="w-5 h-5" />
-                <p className="text-[#858585] font-normal text-sm">
+            <div className="flex flex-row justify-between items-center my-6">
+              <div
+                onClick={googleLogin}
+                className="flex flex-row justify-center items-center bg-white cursor-pointer px-8 py-2 rounded-xl"
+              >
+                <img src={GoogleLogo} alt="google-logo" className="w-4 h-4" />
+                <p className="text-[#858585] font-normal text-xs ml-3">
+                  Sign in with Google
+                </p>
+              </div>
+              <div className="flex flex-row justify-center items-center bg-white cursor-pointer px-8 py-2 rounded-xl ">
+                <img src={AppleLogo} alt="apple-logo" className="w-4 h-4" />
+                <p className="text-[#858585] font-normal text-xs ml-3">
                   Sign in with Apple
                 </p>
               </div>
             </div>
-            <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-              <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <form class="space-y-4 md:space-y-6" action="#">
+            <div class="w-full rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+              <div class="p-6 space-y-4 md:space-y-6 sm:p-8 bg-white rounded-2xl">
+                <form class="space-y-4 md:space-y-6" onSubmit={handleLogin}>
                   <div>
                     <label
                       for="email"
@@ -58,7 +91,7 @@ const SignIn = () => {
                       id="email"
                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="name@company.com"
-                      required=""
+                      required
                     />
                   </div>
                   <div>
@@ -74,7 +107,7 @@ const SignIn = () => {
                       id="password"
                       placeholder="••••••••"
                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      required=""
+                      required
                     />
                   </div>
                   <div class="flex items-center">
@@ -94,11 +127,11 @@ const SignIn = () => {
                 </form>
               </div>
             </div>
-            <p class="text-sm text-center font-light text-gray-500 dark:text-gray-400">
+            <p class="text-sm text-center font-light text-gray-500 dark:text-gray-400 mt-5">
               Don’t have an account?{" "}
               <a
                 href="#"
-                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                class="font-light text-primary-600 hover:underline dark:text-primary-500"
               >
                 Register here
               </a>

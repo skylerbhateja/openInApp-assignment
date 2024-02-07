@@ -52,10 +52,20 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
+
+.link {
+  @apply  flex text-[#999CA0] rounded-md gap-6 items-center md:cursor-pointer cursor-default duration-300 font-medium;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+.active {
+  @apply bg-gradient-to-r from-[#615bff13] from-10% to-15% text-[#605BFF];
 }
+
+.listItem{
+  padding-left: 31px;
+  border-radius: 0px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+

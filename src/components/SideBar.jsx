@@ -1,12 +1,4 @@
-import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-  ListItemPrefix,
-  ListItemSuffix,
-  Chip,
-} from "@material-tailwind/react";
+import { List, ListItem, ListItemPrefix } from "@material-tailwind/react";
 import LogoWithCompany from "../assets/base-logo-company.svg";
 import DashboardIcon from "../assets/dashboard.svg";
 import UploadIcon from "../assets/chart.svg";
@@ -21,6 +13,7 @@ import UserPng from "../assets/user.png";
 import CrossIcon from "../assets/cross.svg";
 
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export function DefaultSidebar() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -32,7 +25,7 @@ export function DefaultSidebar() {
     <>
       {!isSidebarOpen && (
         <div className="lg:hidden absolute w-full flex flex-row items-center justify-between px-5 py-6 bg-white">
-          <div className="flex flex-row">
+          <div className="flex flex-row ">
             <img onClick={toggleSidebar} src={BurgerIcon} />
             <img
               src={LogoWithCompany}
@@ -59,10 +52,10 @@ export function DefaultSidebar() {
       <div
         className={`${
           isSidebarOpen ? "block" : "hidden"
-        } lg:block lg:w-full max-w-[20rem] z-[999]`}
+        } lg:block lg:w-full max-w-[20rem] z-[999] inset-0`}
       >
-        <div className="bg-white h-screen w-full max-w-[20rem]  block p-4 shadow-xl shadow-blue-gray-900/5">
-          <div className="m-2 p-2 flex justify-between lg:justify-center ">
+        <div className="bg-white h-screen w-full max-w-[20rem] inset-0 block shadow-xl shadow-blue-gray-900/5">
+          <div className=" flex justify-between lg:justify-center py-8 pt-10 ">
             <img src={LogoWithCompany} alt="dashboard-icon" />
             <img
               src={CrossIcon}
@@ -72,44 +65,50 @@ export function DefaultSidebar() {
               style={{ filter: "invert(1)" }}
             />
           </div>
-          <List>
-            <ListItem>
+          <List className="p-0">
+            <ListItem className="listItem">
               <ListItemPrefix>
                 <img src={DashboardIcon} alt="dashboard-icon" />
               </ListItemPrefix>
               Dashboard
             </ListItem>
-            <ListItem>
-              <ListItemPrefix>
-                <img src={UploadIcon} alt="dashboard-icon" />
-              </ListItemPrefix>
-              Upload
-            </ListItem>
-            <ListItem>
+            <NavLink to={"/upload"} className="link">
+              <ListItem className="listItem">
+                <ListItemPrefix>
+                  <img src={UploadIcon} alt="dashboard-icon" className="icon" />
+                </ListItemPrefix>
+                Upload
+              </ListItem>
+            </NavLink>
+            <ListItem className="listItem">
               <ListItemPrefix>
                 <img src={InvoiceIcon} alt="dashboard-icon" />
               </ListItemPrefix>
               Invoice
             </ListItem>
-            <ListItem>
+
+            <ListItem className="listItem">
               <ListItemPrefix>
                 <img src={ScheduleIcon} alt="dashboard-icon" />
               </ListItemPrefix>
               Schedule
             </ListItem>
-            <ListItem>
+
+            <ListItem className="listItem">
               <ListItemPrefix>
                 <img src={CalendarIcon} alt="dashboard-icon" />
               </ListItemPrefix>
               Calendar
             </ListItem>
-            <ListItem>
+
+            <ListItem className="listItem">
               <ListItemPrefix>
                 <img src={NotificationIcon} alt="dashboard-icon" />
               </ListItemPrefix>
               Notification
             </ListItem>
-            <ListItem>
+
+            <ListItem className="listItem">
               <ListItemPrefix>
                 <img src={SettingIcon} alt="dashboard-icon" />
               </ListItemPrefix>
